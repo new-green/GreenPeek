@@ -9,11 +9,21 @@
 
 ## Kurulum:
 1. `catimg` aracını yükleyin.
-2. JSON dosyanızı `data.json` adıyla programın bulunduğu dizine yerleştirin.
-3. Python 3 ile programı çalıştırın.
+2. Gerekli Python kütüphanelerini yükleyin:
+   ```bash
+   pip install colored
+3. JSON dosyanızı `data.json` adıyla programın bulunduğu dizine yerleştirin.
+4. Burada, picture_path alanını resminizin gerçek yolu ile değiştirin. default_pixel_size ise resmin boyutlandırma ölçeğidir.
+5. Python 3 ile programı çalıştırın.
 
 ## Kullanım:
 Programı çalıştırarak resimlerinizi ve sistem bilgilerinizi görüntüleyebilirsiniz.
+
+## Kurulum:
+1. `catimg` aracını yükleyin.
+2. Gerekli Python kütüphanelerini yükleyin:
+   ```bash
+   pip install colored
 
 ## Lisans:
 Bu proje GNU Genel Kamu Lisansı v3 (GPL-3.0) altında lisanslanmıştır.
@@ -32,8 +42,13 @@ Bu proje GNU Genel Kamu Lisansı v3 (GPL-3.0) altında lisanslanmıştır.
 
 ## Installation:
 1. Install the `catimg` tool.
-2. Place your JSON file named `data.json` in the same directory as the program.
-3. Run the program with Python 3.
+2. Install the required Python libraries:
+   ```bash
+   pip install colored
+3. Place your JSON file named `data.json` in the same directory as the program.
+4. Replace the picture_path field with the actual path to your image. default_pixel_size is the scaling factor for the image.
+5. Run the program with Python 3.
+
 
 ## Usage:
 Run the program to view your images and system information.
