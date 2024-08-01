@@ -84,62 +84,53 @@ def show_picture():
         print(debug_message)
 
 def show_system_features():
-    """
-    Retrieves and displays the system's processor name and GPU information.
+    try:
+        pcname = f"{subprocess.check_output('whoami', shell=True).decode().strip()}@{subprocess.check_output('hostname', shell=True).decode().strip()}"
+        print(f"{fg('green')}{pcname}{attr('reset')}")
+        print("#-"*20)
 
-    This function uses the `os` module to execute shell commands that extract
-    the processor name and GPU information.
+        distro_info = subprocess.check_output('lsb_release -d', shell=True).decode().strip().split(':', 1)[1].strip()
+        print(f"{fg('green')}OS:{attr('reset')} {distro_info}")
 
-    Returns:
-        None
+        kernel_name = os.popen('uname -r').read().strip()
+        print(f"{fg('green')}Kernel:{attr('reset')} {kernel_name}")
 
-    Example:
-        >>> show_system_features()
-        Intel(R) Core(TM) i7-10700K CPU @ 3.70GHz
+        output = subprocess.check_output('uptime', shell=True).decode().strip()
+        match = re.search(r'up\s+(\d+)\s+days?,?\s*(\d+):(\d+)|up\s+(\d+):(\d+)', output)
 
-    Note:
-        This function assumes a Linux-based system and may not work on other operating systems.
-    """
-    # `fg` colors: red, green, yellow, blue, magenta, cyan, white
-    # `style` code: reset, bright, dim, normal
-    pcname = f"{subprocess.check_output('whoami', shell=True).decode().strip()}@{subprocess.check_output('hostname', shell=True).decode().strip()}"
-    print(f"{fg('green')}{pcname}{attr('reset')}")
-    print("#-"*20)
+        if match:
+            days = int(match.group(1) or 0)
+            hours = int(match.group(2) or match.group(4))
+            minutes = int(match.group(3) or match.group(5))
+            total_hours = days * 24 + hours
+            print(f"{fg('green')}Uptime:{attr('reset')} {total_hours} hours, {minutes} minutes")
+        else:
+            print(f"{fg('yellow')}Unable to parse uptime information{attr('reset')}")
 
-    distro_info = subprocess.check_output('lsb_release -d', shell=True).decode().strip().split(':', 1)[1].strip()
-    print(f"{fg('green')}OS:{attr('reset')} {distro_info}")
-    
-    kernel_name=os.popen('uname -r').read().strip()
-    print(f"{fg('green')}Kernel:{attr('reset')} {kernel_name}")
+        processor_name = os.popen('grep -m 1 "model name" /proc/cpuinfo').read().split(':')[1].strip()
+        print(f"{fg('green')}Processor Name:{attr('reset')} {processor_name}")
 
-    output = subprocess.check_output('uptime', shell=True).decode().strip()
-    match = re.search(r'up\s+(\d+)\s+days?,?\s*(\d+):(\d+)|up\s+(\d+):(\d+)', output)
-    days = int(match.group(1) or 0)
-    hours = int(match.group(2) or match.group(4))
-    minutes = int(match.group(3) or match.group(5))
-    total_hours = days * 24 + hours
-    print(f"{fg('green')}Uptime:{attr('reset')} {total_hours} hours, {minutes} minutes")
+        integr_gpu_info = ' '.join(os.popen('lspci | grep -i "vga\\|3d\\|2d"').read().strip().split(':')[2:]).strip()
+        external_gpu_info = os.popen('lspci | grep -i "vga\\|3d\\|2d" | grep -i "amd\\|nvidia"').read().strip()
 
+        print(f"{fg('green')}Integrated GPU:{attr('reset')} {integr_gpu_info}")
 
-    processor_name = os.popen('grep -m 1 "model name" /proc/cpuinfo').read().split(':')[1].strip()
-    print(f"{fg('green')}Processor Name:{attr('reset')} {processor_name}")
-
-    integr_gpu_info = ' '.join(os.popen('lspci | grep -i "vga\\|3d\\|2d"').read().strip().split(':')[2:]).strip()
-    external_gpu_info = os.popen('lspci | grep -i "vga\\|3d\\|2d" | grep -i "amd\\|nvidia"').read().strip()
-
-    print(f"{fg('green')}Integrated GPU:{attr('reset')} {integr_gpu_info}")
-
-    if external_gpu_info:
-        print(f"{fg('green')}External GPU:{attr('reset')} {external_gpu_info}")
-    else:
-        external_gpu_info = ' '.join(os.popen('lspci | grep -i "amd\\|nvidia"').read().strip().split(':')[2:]).strip()
         if external_gpu_info:
             print(f"{fg('green')}External GPU:{attr('reset')} {external_gpu_info}")
         else:
-            print(f"{fg('yellow')}External GPU is not found!{attr('reset')}")
+            external_gpu_info = ' '.join(os.popen('lspci | grep -i "amd\\|nvidia"').read().strip().split(':')[2:]).strip()
+            if external_gpu_info:
+                print(f"{fg('green')}External GPU:{attr('reset')} {external_gpu_info}")
+            else:
+                print(f"{fg('yellow')}External GPU is not found!{attr('reset')}")
 
-    total_ram_gb = subprocess.check_output('free -g | awk \'NR==2{print $2}\'', shell=True).decode().strip()
-    print(f"{fg('green')}Memory:{attr('reset')} {total_ram_gb} GiB")
+        total_ram_gb = subprocess.check_output('free -g | awk \'NR==2{print $2}\'', shell=True).decode().strip()
+        print(f"{fg('green')}Memory:{attr('reset')} {total_ram_gb} GiB")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Subprocess error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
     show_picture()
