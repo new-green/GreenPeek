@@ -16,7 +16,7 @@
 Programı çalıştırarak resimlerinizi ve sistem bilgilerinizi görüntüleyebilirsiniz.
 
 ## Lisans:
-Bu proje MIT Lisansı altında lisanslanmıştır.
+Bu proje GNU Genel Kamu Lisansı v3 (GPL-3.0) altında lisanslanmıştır.
 
 ## Katkıda Bulunanlar:
 - **new_green** (Yazar)
@@ -39,7 +39,7 @@ Bu proje MIT Lisansı altında lisanslanmıştır.
 Run the program to view your images and system information.
 
 ## License:
-This project is licensed under the MIT License.
+This project is licensed under the GNU General Public License v3 (GPL-3.0).
 
 ## Contributors:
 - **new_green** (Author)
