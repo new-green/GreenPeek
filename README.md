@@ -19,12 +19,6 @@
 ## Kullanım:
 Programı çalıştırarak resimlerinizi ve sistem bilgilerinizi görüntüleyebilirsiniz.
 
-## Kurulum:
-1. `catimg` aracını yükleyin.
-2. Gerekli Python kütüphanelerini yükleyin:
-   ```bash
-   pip install colored
-
 ## Lisans:
 Bu proje GNU Genel Kamu Lisansı v3 (GPL-3.0) altında lisanslanmıştır.
 
